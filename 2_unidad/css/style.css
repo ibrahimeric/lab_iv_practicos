@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.unidad2{
+    background-color: beige;
+    height: 50px;
+    padding: 2rem;
+    text-align: center;
+    font-weight: bold;
+    font-style: oblique;
+    text-decoration: underline;
+}
+
+.unidad2 h1 {
+    font-size: 2rem;
+}
+
+.boton_saludo {
+    background-color: aquamarine;
+    padding: 2rem;
+}
+
+#botonSaludo{
+    margin: 2rem;
+}
+
+.form {
+    background-color: bisque;
+    padding: 2rem;
+}
