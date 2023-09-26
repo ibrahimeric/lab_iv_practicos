@@ -1,0 +1,72 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.unidad-2 {
+    background-color: beige;
+    height: 50px;
+    padding: 2rem;
+    text-align: center;
+    font-weight: bold;
+    font-style: oblique;
+    text-decoration: underline;
+}
+
+.unidad-2 h1 {
+    font-size: 2rem;
+}
+
+#actividad {
+    font-size: 2rem;
+    font-style: oblique;
+}
+
+#saludar {
+    font-size: 1.5rem;
+}
+
+.contenedor {
+    background-color: aquamarine;
+    padding: 2rem;
+}
+
+/* Estilos para el botón */
+#boton-saludo {
+    margin: 3rem;
+    background-color: #007BFF;
+    color: #FFF;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+}
+
+/* Estilos para cuando se pasa el mouse sobre el botón */
+#boton-saludo:hover {
+    background-color: #0056b3;
+}
+
+@keyframes titilar {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+#mensaje-saludo {
+    font-size: 25px;
+    animation: titilar 1s linear infinite;
+}

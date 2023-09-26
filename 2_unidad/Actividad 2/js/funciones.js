@@ -14,7 +14,7 @@ function operaciones(cantidad) {
         suma = suma + nuevoArray[count -1]
         count++;
     }
-    console.log("La suma de todos los numeros ingresados es: ", suma)
+    alert("La suma de todos los numeros ingresados es: ", suma)
 }
 
 operaciones(parseFloat(prompt("¿Cuantos numeros deseas sumar?", "")))

@@ -3,7 +3,7 @@
     padding: 0;
 }
 
-.unidad2{
+.unidad-2 {
     background-color: beige;
     height: 50px;
     padding: 2rem;
@@ -13,20 +13,69 @@
     text-decoration: underline;
 }
 
-.unidad2 h1 {
+.unidad-2 h1 {
     font-size: 2rem;
 }
 
-.boton_saludo {
-    background-color: aquamarine;
-    padding: 2rem;
+.ejercicio-2 h2 {
+    margin-bottom: 4rem;
 }
 
-#botonSaludo{
-    margin: 2rem;
+#actividad {
+    font-size: 2rem;
+    font-style: oblique;
 }
 
-.form {
+.ejercicio-2 {
     background-color: bisque;
-    padding: 2rem;
+    padding: 4rem;
+}
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.container h3 {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.contact-form {
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+    width: 100%;
+    height: 2rem;
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
 }
