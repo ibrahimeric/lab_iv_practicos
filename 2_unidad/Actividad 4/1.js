@@ -1,3 +1,8 @@
+/* Crea una clase en JavaScript que modele un estudiante, con 
+propiedades como nombre, edad y calificaciones. Implementa 
+métodos para calcular el promedio de las calificaciones y 
+mostrar la información del estudiante. */
+
 class Estudiante{
     constructor(nombre, edad, primerParcial, segundoParcial){
         this._nombre = nombre;

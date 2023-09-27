@@ -1,3 +1,6 @@
+/* Optimiza el rendimiento de un bucle en JavaScript 
+utilizando técnicas como la reducción de operaciones innecesarias. */
+
 /* Versión inicial del código con un bucle for para sumar todos los elementos del array. */
 
 /*
