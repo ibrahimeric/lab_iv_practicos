@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Traductor Automático</title>
+</head>
+<body>
+    <h1>Traductor Automático</h1>
+    <textarea id="text" placeholder="Ingresa el texto a traducir"></textarea>
+    <select id="target_lang">
+        <option value="es">Español</option>
+        <option value="fr">Francés</option>
+        <option value="de">Alemán</option>
+    </select>
+    <button id="miBoton">Traducir</button>
+    <div id="translation"></div>
+
+    <script>
+        console.log("funciona")
+        document.getElementById('miBoton').onclick = translate();
+        function translate() {
+            const text = document.getElementById('text').value;
+            const targetLang = document.getElementById('target_lang').value;
+
+            fetch('/translate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text, target_lang: targetLang })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('translation').textContent = data.translation;
+            })
+            .catch(error => console.error(error));
+        }
+    </script>
+</body>
+</html>
