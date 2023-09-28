@@ -1,5 +1,7 @@
-#  4- Implementa una clase en Python que modele una cuenta bancaria, con métodos para depositar, 
-# retirar y consultar saldo.
+"""  4- Implementa una clase en Python que modele una 
+cuenta bancaria, con métodos para depositar, 
+retirar y consultar saldo. """
+
 class cuenta_bancaria:
     def __init__(self, saldo_inicial=0):
         self.saldo = saldo_inicial

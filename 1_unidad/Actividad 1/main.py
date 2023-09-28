@@ -1,5 +1,5 @@
-# 1. Escribe un programa en Python que calcule el área de un triángulo 
-# dados la base y la altura.
+""" Escribe un programa en Python que calcule el área 
+de un triángulo dados la base y la altura. """
 
 base = int(input('Ingrese el valor de la base: '))
 altura = int(input('Ingrese el valor de la altura: '))

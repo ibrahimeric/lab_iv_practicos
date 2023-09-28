@@ -1,0 +1,10 @@
+"La programación en Python es el proceso de 
+escribir y ejecutar código en el lenguaje de 
+programación Python. Python es un lenguaje de 
+programación de alto nivel conocido por su sintaxis 
+legible y su facilidad de uso. Permite a los 
+programadores crear software y aplicaciones de 
+manera eficiente, abordando una amplia variedad de 
+problemas y proyectos de desarrollo."
+
+Autor: Guido van Rossum
