@@ -100,4 +100,7 @@ for img_path in imagenes_prueba:
 # Cerrar todas las ventanas al final
 plt.close('all')
 
+#Este código muestra cada imagen y espera la entrada del usuario antes de mostrar la siguiente. 
+# Utiliza la función input para esperar a que el usuario presione "Enter" antes de continuar con la siguiente imagen. 
+# Esto debería permitirte ver cada imagen y su clasificación antes de avanzar a la siguiente.
     
