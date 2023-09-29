@@ -3,6 +3,8 @@
 
 pip install tensorflow  # o pip install torch
 pip install numpy matplotlib
+pip install scipy
+
 
 # Instala la herramienta virtualenv si no está instalada
 pip install virtualenv

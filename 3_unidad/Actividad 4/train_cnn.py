@@ -1,101 +1,93 @@
 #Importa las bibliotecas necesarias
 
+import os
+os.path.abspath("3_unidad\\Actividad 4\\dataset\\validation")
+import scipy
+
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D
-from tensorflow.keras.layers import Activation, Dropout, Flatten, Dense
 
-# Rutas a las carpetas de datos
-train_data_dir = '/dataset/train")'  # Ruta a la carpeta de entrenamiento
-validation_data_dir = 'dataset/validation'  # Ruta a la carpeta de validación
-
-# Parámetros de preprocesamiento de imágenes
-img_width, img_height = 150, 150  # Tamaño de las imágenes
-batch_size = 32  # Tamaño del lote (batch size)
-
-# Configuración de aumento de datos para el conjunto de entrenamiento
-train_datagen = ImageDataGenerator(
-    rescale=1.0 / 255,  # Normalización de píxeles
-    shear_range=0.2,    # Cambios de inclinación
-    zoom_range=0.2,     # Aumento de zoom
-    horizontal_flip=True)  # Volteo horizontal aleatorio
-
-# Configuración de aumento de datos para el conjunto de validación (solo normalización)
+# Crear un generador de datos de entrenamiento y validación
+train_datagen = ImageDataGenerator(rescale=1.0 / 255)
 validation_datagen = ImageDataGenerator(rescale=1.0 / 255)
 
-# Creación de generadores de imágenes para entrenamiento y validación
 train_generator = train_datagen.flow_from_directory(
-    train_data_dir,
-    target_size=(img_width, img_height),
-    batch_size=batch_size,
-    class_mode='binary')  # 'binary' para clasificación binaria (perros vs. gatos)
+    os.path.abspath("3_unidad\\Actividad 4\\dataset\\train"),
+    target_size=(150, 150),
+    batch_size=32,
+    class_mode='binary')
 
 validation_generator = validation_datagen.flow_from_directory(
-    validation_data_dir,
-    target_size=(img_width, img_height),
-    batch_size=batch_size,
+    os.path.abspath("3_unidad\\Actividad 4\\dataset\\validation"),
+    target_size=(150, 150),
+    batch_size=32,
     class_mode='binary')
 
-# Nota: Los generadores de imágenes cargarán y preprocesarán automáticamente las imágenes
+# Definir la arquitectura de la CNN
+model = tf.keras.models.Sequential([
+    tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(150, 150, 3)),
+    tf.keras.layers.MaxPooling2D(2, 2),
+    tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
+    tf.keras.layers.MaxPooling2D(2, 2),
+    tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
+    tf.keras.layers.MaxPooling2D(2, 2),
+    tf.keras.layers.Flatten(),
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dense(1, activation='sigmoid')
+])
 
-#Crea el modelo de la CNN
+# Compilar el modelo
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
-model = Sequential()
-
-model.add(Conv2D(32, (3, 3), input_shape=(img_width, img_height, 3)))
-model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-
-model.add(Conv2D(32, (3, 3)))
-model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-
-model.add(Conv2D(64, (3, 3)))
-model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-
-model.add(Flatten())
-model.add(Dense(64))
-model.add(Activation('relu'))
-model.add(Dropout(0.5))
-model.add(Dense(1))
-model.add(Activation('sigmoid'))
-
-
-#Compila el modelo
-
-model.compile(loss='binary_crossentropy',
-              optimizer='adam',
-              metrics=['accuracy'])
-
-#Entrena el modelo utilizando los generadores de imágenes
-
-model.fit(
+# Entrenar el modelo
+history = model.fit(
     train_generator,
-    steps_per_epoch=train_generator.samples // batch_size,
-    epochs=epochs,
+    steps_per_epoch=train_generator.samples // 32,
     validation_data=validation_generator,
-    validation_steps=validation_generator.samples // batch_size)
+    validation_steps=validation_generator.samples // 32,
+    epochs=10)
 
+#Aquí hay un ejemplo de cómo preprocesar una imagen de prueba utilizando TensorFlow:
 
-#Puedes evaluar el modelo en un conjunto de prueba y guardarlo si estás satisfecho con el rendimiento
+from tensorflow.keras.preprocessing import image
+import numpy as np
 
-# Evaluar en un conjunto de prueba (si tienes uno)
-test_data_dir = 'dataset/test'
+# Cargar la imagen de prueba
+img_path = '3_unidad/Actividad 4/dataset/test/1.jpg'
+img = image.load_img(img_path, target_size=(150, 150))
 
-test_datagen = ImageDataGenerator(rescale=1.0 / 255)
+# Convertir la imagen a un array numpy
+img_array = image.img_to_array(img)
 
-test_generator = test_datagen.flow_from_directory(
-    test_data_dir,
-    target_size=(img_width, img_height),
-    batch_size=batch_size,
-    class_mode='binary')
+# Normalizar los valores de píxeles (escalarlos entre 0 y 1)
+img_array = img_array / 255.0
 
-score = model.evaluate(test_generator)
-print("Loss:", score[0])
-print("Accuracy:", score[1])
+# Expandir las dimensiones para que coincidan con las dimensiones de entrada de la CNN
+img_array = np.expand_dims(img_array, axis=0)
 
-# Guardar el modelo
+'''
+Luego, puedes utilizar tu modelo entrenado para realizar la clasificación en la imagen de prueba.
+Puedes usar el método predict de tu modelo para obtener la probabilidad de que la imagen sea un perro o un gato.
+Aquí hay un ejemplo de cómo hacerlo
+'''
+# Realizar la clasificación
+prediction = model.predict(img_array)
 
-model.save("dog_cat_model.h5")
+# La predicción es un valor entre 0 y 1; más cercano a 0 significa gato, más cercano a 1 significa perro
+if prediction < 0.5:
+    print("Es un gato")
+else:
+    print("Es un perro")
+
+'''
+Puedes utilizar bibliotecas como Matplotlib para mostrar la imagen de prueba junto con la clasificación. 
+Aquí hay un ejemplo
+'''
+
+import matplotlib.pyplot as plt
+
+# Mostrar la imagen
+plt.imshow(img)
+plt.axis('off')  # Para eliminar los ejes
+plt.title("Clasificación: " + ("Perro" if prediction >= 0.5 else "Gato"))
+plt.show()
