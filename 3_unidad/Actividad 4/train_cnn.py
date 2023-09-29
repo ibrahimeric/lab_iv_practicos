@@ -72,28 +72,32 @@ prueba_dir = (os.path.abspath("3_unidad\\Actividad 4\\dataset\\test"))
 # Obtener la lista de archivos de imagen en el directorio de prueba
 imagenes_prueba = [os.path.join(prueba_dir, img) for img in os.listdir(prueba_dir)]
 
-# Clasificar cada imagen en la lista
-for img_path in imagenes_prueba:
-    # Cargar la imagen de prueba
-    img = image.load_img(img_path, target_size=(150, 150))
-
-    # Preprocesar la imagen
+# Definir una función para mostrar la imagen y esperar una entrada del usuario
+def mostrar_imagen_y_esperar(imagen_path):
+    img = image.load_img(imagen_path, target_size=(150, 150))
     img_array = image.img_to_array(img)
     img_array = img_array / 255.0
     img_array = np.expand_dims(img_array, axis=0)
 
-    # Realizar la clasificación
     prediction = model.predict(img_array)
 
-    # Mostrar la clasificación y la imagen
-    plt.imshow(img)  # Muestra la imagen
-    plt.axis('off')  # Elimina los ejes
+    plt.imshow(img)
+    plt.axis('off')
     plt.title("Clasificación: " + ("Perro" if prediction >= 0.5 else "Gato"))
-    plt.show()  # Muestra la imagen en una ventana emergente
+    plt.show()
 
-    print("Imagen:", img_path)
+    print("Imagen:", imagen_path)
     if prediction >= 0.5:
         print("Clasificación: Perro")
     else:
         print("Clasificación: Gato")
-    print()  # Agrega una línea en blanco entre resultados
+
+# Mostrar las imágenes una por una y esperar la entrada del usuario
+for img_path in imagenes_prueba:
+    mostrar_imagen_y_esperar(img_path)
+    input("Presiona Enter para mostrar la siguiente imagen...")
+
+# Cerrar todas las ventanas al final
+plt.close('all')
+
+    
