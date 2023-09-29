@@ -1,7 +1,6 @@
 #Importa las bibliotecas necesarias
 
 import os
-os.path.abspath("3_unidad\\Actividad 4\\dataset\\validation")
 import scipy
 
 import tensorflow as tf
@@ -47,47 +46,54 @@ history = model.fit(
     validation_steps=validation_generator.samples // 32,
     epochs=10)
 
-#Aquí hay un ejemplo de cómo preprocesar una imagen de prueba utilizando TensorFlow:
+# Guardar el modelo entrenado en un archivo HDF5
+model.save(os.path.abspath("3_unidad\\Actividad 4\\modeloentrenado.keras"))
 
+#En este ejemplo, el script carga una lista de rutas de imágenes en el directorio de prueba y 
+# luego recorre cada imagen en el bucle for. Para cada imagen, se realiza la clasificación y se muestra el resultado 
+# junto con la ruta de la imagen. Puedes colocar tus imágenes de prueba en el directorio prueba_dir y el script las clasificará una por una.
+
+#Asegúrate de cambiar 'directorio_de_prueba' por la ruta al directorio que contiene 
+# tus imágenes de prueba. Con este código, puedes probar varias imágenes sin tener que modificar el script cada vez que desees hacerlo.
+
+import tensorflow as tf
+from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import numpy as np
+import matplotlib.pyplot as plt  # Importa Matplotlib
+import os
 
-# Cargar la imagen de prueba
-img_path = '3_unidad/Actividad 4/dataset/test/1.jpg'
-img = image.load_img(img_path, target_size=(150, 150))
+# Cargar el modelo entrenado
+model = load_model(os.path.abspath("3_unidad\\Actividad 4\\modeloentrenado.keras"))
 
-# Convertir la imagen a un array numpy
-img_array = image.img_to_array(img)
+# Directorio que contiene las imágenes de prueba
+prueba_dir = (os.path.abspath("3_unidad\\Actividad 4\\dataset\\test"))
 
-# Normalizar los valores de píxeles (escalarlos entre 0 y 1)
-img_array = img_array / 255.0
+# Obtener la lista de archivos de imagen en el directorio de prueba
+imagenes_prueba = [os.path.join(prueba_dir, img) for img in os.listdir(prueba_dir)]
 
-# Expandir las dimensiones para que coincidan con las dimensiones de entrada de la CNN
-img_array = np.expand_dims(img_array, axis=0)
+# Clasificar cada imagen en la lista
+for img_path in imagenes_prueba:
+    # Cargar la imagen de prueba
+    img = image.load_img(img_path, target_size=(150, 150))
 
-'''
-Luego, puedes utilizar tu modelo entrenado para realizar la clasificación en la imagen de prueba.
-Puedes usar el método predict de tu modelo para obtener la probabilidad de que la imagen sea un perro o un gato.
-Aquí hay un ejemplo de cómo hacerlo
-'''
-# Realizar la clasificación
-prediction = model.predict(img_array)
+    # Preprocesar la imagen
+    img_array = image.img_to_array(img)
+    img_array = img_array / 255.0
+    img_array = np.expand_dims(img_array, axis=0)
 
-# La predicción es un valor entre 0 y 1; más cercano a 0 significa gato, más cercano a 1 significa perro
-if prediction < 0.5:
-    print("Es un gato")
-else:
-    print("Es un perro")
+    # Realizar la clasificación
+    prediction = model.predict(img_array)
 
-'''
-Puedes utilizar bibliotecas como Matplotlib para mostrar la imagen de prueba junto con la clasificación. 
-Aquí hay un ejemplo
-'''
+    # Mostrar la clasificación y la imagen
+    plt.imshow(img)  # Muestra la imagen
+    plt.axis('off')  # Elimina los ejes
+    plt.title("Clasificación: " + ("Perro" if prediction >= 0.5 else "Gato"))
+    plt.show()  # Muestra la imagen en una ventana emergente
 
-import matplotlib.pyplot as plt
-
-# Mostrar la imagen
-plt.imshow(img)
-plt.axis('off')  # Para eliminar los ejes
-plt.title("Clasificación: " + ("Perro" if prediction >= 0.5 else "Gato"))
-plt.show()
+    print("Imagen:", img_path)
+    if prediction >= 0.5:
+        print("Clasificación: Perro")
+    else:
+        print("Clasificación: Gato")
+    print()  # Agrega una línea en blanco entre resultados
